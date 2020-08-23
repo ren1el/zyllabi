@@ -1,0 +1,64 @@
+.content-wrapper {
+  max-height: 100%;
+  background-color: #3A4B6C;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  height: 92%;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+}
+
+.topbar-wrapper {
+  height: 4%;
+  color: #000;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topbar {
+  width: 55%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar-header {
+  font-size: 1.3rem;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  height: 4%;
+  background-color: #FFFFFF;
+}
+
+.home {
+  display: inline-block;
+  position: relative;
+  top: 30%;
+  left: 25%;
+}
+
+.syllabus {
+  width: 80%;
+}
+
+.header {
+  font-weight: bold;
+  font-size: 5rem;
+  color: #FFFFFF;
+}
+
+.custom-select {
+  width: 200px;
+}
