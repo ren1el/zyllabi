@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import '../styles/Home.css';
 import syllabusService from '../services/syllabiService';
 
@@ -8,6 +8,7 @@ const Syllabus = () => {
   const [message, setMessage] = useState('Loading...');
   const courseDept = useParams().courseDept;
   const courseNumber = useParams().courseNumber;
+  const history = useHistory();
 
   useEffect(() => {
     syllabusService.getSyllabus(courseDept, courseNumber)
@@ -18,11 +19,17 @@ const Syllabus = () => {
       });
   }, [courseDept, courseNumber]);
 
+  const onAddClicked = (event) => {
+    event.preventDefault();
+    history.push(`/syllabi/${courseDept}/${courseNumber}/add`);
+  };
+
   if(syllabi.length === 0) {
     return (
       <div className='content center-content'>
         <div className='syllabi'>
-          {message}
+          <button onClick={onAddClicked}>Add</button>
+          <p>{message}</p>
         </div>
       </div>
     );
@@ -32,10 +39,11 @@ const Syllabus = () => {
     <div className='content center-content'>
       {console.log(syllabi)}
       <div className='syllabi'>
+        <button onClick={onAddClicked}>Add</button>
         {syllabi.map((syllabus) => 
           <ul key={syllabus.id}>
             <li>{syllabus.courseDept.name}</li>
-            <li>{syllabus.courseNumber}</li>
+            <li>{syllabus.course.courseNumber}</li>
             <li>{syllabus.instructor}</li>
             <li>{syllabus.quarter}</li>
             <li>{syllabus.url}</li>

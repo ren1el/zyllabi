@@ -1,5 +1,4 @@
 import React from 'react';
-// import courseOptions from '../utils/courseOptions';
 
 const CourseForm = ({ courseDepartments, onSubmitCourse, onCourseDeptChanged, onCourseNumberChanged }) => {
   return (

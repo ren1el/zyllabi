@@ -11,4 +11,9 @@ const getSyllabus = async (courseDept, courseNumber) => {
   return response.data;
 };
 
-export default { getAllSyllabi, getSyllabus };
+const addSyllabus = async (newSyllabus) => {
+  const response = await axios.post(baseUrl, newSyllabus);
+  return response.data;
+};
+
+export default { getAllSyllabi, getSyllabus, addSyllabus };

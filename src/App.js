@@ -3,7 +3,9 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import Topbar from './components/Topbar';
 import Home from './components/Home';
 import Syllabus from './components/Syllabus';
-import courseDepartmentService from './services/courseDepartmentService';
+import Add from './components/Add';
+import syllabiService from './services/syllabiService';
+import departmentService from './services/departmentService';
 
 const App = () => {
   const [courseDepartments, setCourses] = useState([{ id: 0, value: '', courseString: 'Course Department' }]);
@@ -12,8 +14,13 @@ const App = () => {
   const history = useHistory();
 
   useEffect(() => {
-    courseDepartmentService.getAllDepartments()
-      .then((courseDepartments) => setCourses(courseDepartments));
+    departmentService.getAllDepartments()
+      .then((courseDepartments) => {
+        courseDepartments.sort((a, b) => {
+          return a.name > b.name ? 1: -1;
+        });
+        setCourses(courseDepartments.sort((a, b) => a.name - b.name));
+      });
   }, []);
 
   const onCourseDeptChanged = (event) => {
@@ -37,12 +44,20 @@ const App = () => {
     }
   };
 
+  const onSubmitSyllabus = async (newSyllabus) => {
+    await syllabiService.addSyllabus(newSyllabus);
+    history.goBack();
+  };
+
   return (
     <div className='content-wrapper'>
       <Topbar />
       <Switch>
+        <Route path='/syllabi/:courseDept/:courseNumber/add'>
+          <Add onSubmitSyllabus={onSubmitSyllabus} />
+        </Route>
         <Route path='/syllabi/:courseDept/:courseNumber'>
-          <Syllabus courseDepartments={courseDepartments} />
+          <Syllabus />
         </Route>
         <Route path='/'>
           <Home
