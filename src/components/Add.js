@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Add = ({ onSubmitSyllabus }) => {
   const [instructor, setInstructor] = useState('');
@@ -8,12 +8,6 @@ const Add = ({ onSubmitSyllabus }) => {
   const [url, setUrl] = useState('');
   const department = useParams().courseDept;
   const courseNumber = useParams().courseNumber;
-  const history = useHistory();
-
-  const onCancelClicked = (event) => {
-    event.preventDefault();
-    history.goBack();
-  };
 
   const onInstructorChanged = (event) => {
     event.preventDefault();
@@ -51,21 +45,47 @@ const Add = ({ onSubmitSyllabus }) => {
   };
 
   return (
-    <div className='content center-content'>
-      <div className='age'>
-        <p>Add Page</p>
-        <form onSubmit={onSubmitClicked}>
-          <p>Instructor</p>
-          <input type='text' onChange={onInstructorChanged} />
-          <p>Quarter</p>
-          <input type='text' onChange={onQuarterChanged} />
-          <p>Year</p>
-          <input type='text' onChange={onYearChanged} />
-          <p>Url</p>
-          <input type='text' onChange={onUrlChanged} />
-          <button type='submit'>Submit</button>
-          <button onClick={onCancelClicked}>Cancel</button>
-        </form>
+    <div>
+      <button type='button' className='btn btn-primary' data-toggle='modal' data-target='#addModal'>
+        Add
+      </button>
+
+      <div className='modal fade' id='addModal'>
+        <div className='modal-dialog' role='document'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title' id='exampleModalLongTitle'>Add a syllabus</h5>
+              <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span>
+              </button>
+            </div>
+            <div className='modal-body'>
+              <form onSubmit={onSubmitClicked}>
+                <div className='form-group'>
+                  <label>Instructor (Last Name)</label>
+                  <input type='text' className='form-control' id='instructor' onChange={onInstructorChanged} />
+                </div>
+                <div className='form-group'>
+                  Quarter
+                  <input type='text' className='form-control' id='quarter' onChange={onQuarterChanged} />
+                </div>
+                <div className='form-group'>
+                  Year
+                  <input type='text' className='form-control' id='year' onChange={onYearChanged} />
+                </div>
+                <div className='form-group'>
+                  URL
+                  <input type='text' className='form-control' id='url' onChange={onUrlChanged} />
+                  <input type="file" className="form-control-file" id="exampleFormControlFile1" />
+                </div>
+              </form>
+            </div>
+            <div className='modal-footer'>
+              <button type='button' className='btn btn-secondary' data-dismiss='modal'>Close</button>
+              <button type='button' className='btn btn-primary'>Submit</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

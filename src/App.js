@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import Topbar from './components/Topbar';
 import Home from './components/Home';
-import Syllabus from './components/Syllabus';
+import Syllabi from './components/Syllabi';
 import Add from './components/Add';
 import syllabiService from './services/syllabiService';
 import departmentService from './services/departmentService';
@@ -57,7 +57,7 @@ const App = () => {
           <Add onSubmitSyllabus={onSubmitSyllabus} />
         </Route>
         <Route path='/syllabi/:courseDept/:courseNumber'>
-          <Syllabus />
+          <Syllabi />
         </Route>
         <Route path='/'>
           <Home
