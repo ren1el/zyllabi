@@ -15,7 +15,7 @@ const Home = ({ courseDepartments, onSubmitCourse, onCourseDeptChanged, onCourse
           onCourseDeptChanged={onCourseDeptChanged} 
           onCourseNumberChanged={onCourseNumberChanged} 
         />
-        <p className='eg'>E.g. MATH 2A</p>
+        <p className='eg'>e.g. MATH 2A</p>
         <p>...or click here to look through the database!</p>
       </div>
     </div>

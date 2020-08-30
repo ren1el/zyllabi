@@ -48,6 +48,15 @@
   left: 25%;
 }
 
+.add {
+  color: #000;
+}
+
+.eg {
+  text-align: right;
+  font-size: 1rem;
+}
+
 .syllabi {
   width: 55%;
   padding: 2em;

@@ -6,14 +6,4 @@
 
 body > #root > div {
   height: 100vh;
-  font-size: 1.3rem;
-}
-
-h2 {
-  font-weight: bold;
-}
-
-.eg {
-  text-align: right;
-  font-size: 1rem;
 }

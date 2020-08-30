@@ -3,7 +3,7 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import Topbar from './components/Topbar';
 import Home from './components/Home';
 import Syllabi from './components/Syllabi';
-import Add from './components/Add';
+// import Add from './components/Add';
 import syllabiService from './services/syllabiService';
 import departmentService from './services/departmentService';
 
@@ -46,18 +46,18 @@ const App = () => {
 
   const onSubmitSyllabus = async (newSyllabus) => {
     await syllabiService.addSyllabus(newSyllabus);
-    history.goBack();
+    // history.goBack();
   };
 
   return (
     <div className='content-wrapper'>
       <Topbar />
       <Switch>
-        <Route path='/syllabi/:courseDept/:courseNumber/add'>
+        {/* <Route path='/syllabi/:courseDept/:courseNumber/add'>
           <Add onSubmitSyllabus={onSubmitSyllabus} />
-        </Route>
+        </Route> */}
         <Route path='/syllabi/:courseDept/:courseNumber'>
-          <Syllabi />
+          <Syllabi onSubmitSyllabus={onSubmitSyllabus} />
         </Route>
         <Route path='/'>
           <Home
