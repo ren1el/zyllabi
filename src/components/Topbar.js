@@ -7,7 +7,7 @@ const Topbar = () => {
     <div className='topbar-wrapper'>
       <div className='topbar'>
         <h1 className='topbar-header'><Link to='/'>Zyllabi</Link></h1>
-        <button className='btn btn-dark btn-sm'>+ Syllabus</button>
+        <button className='btn btn-dark btn-sm'>Login</button>
       </div>
     </div>
   );

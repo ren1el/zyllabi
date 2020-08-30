@@ -5,7 +5,7 @@ import syllabusService from '../services/syllabiService';
 import Syllabus from './Syllabus';
 import Add from './Add';
 
-const Syllabi = () => {
+const Syllabi = ({ onSubmitSyllabus }) => {
   const [syllabi, setSyllabi] = useState([]);
   const [syllabus, setSyllabus] = useState(null);
   const [message, setMessage] = useState('Loading...');
@@ -28,7 +28,7 @@ const Syllabi = () => {
     return (
       <div className='content center-content'>
         <div className='syllabi'>
-          <Add />
+          <Add onSubmitSyllabus={onSubmitSyllabus} />
           <p>{message}</p>
         </div>
       </div>
@@ -48,7 +48,7 @@ const Syllabi = () => {
               {syllabi.map((syllabus) => <span key={syllabus.id} className='dropdown-item' onClick={() => setSyllabus(syllabus)}>{syllabus.instructor} - {syllabus.quarter} {syllabus.year}</span>)}
             </div>
           </div>
-          <Add />
+          <Add onSubmitSyllabus={onSubmitSyllabus} />
         </div>
         
         <Syllabus key={syllabus.id} syllabus={syllabus} />

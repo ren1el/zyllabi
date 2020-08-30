@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/api/syllabi';
+const baseUrl = 'http://***REMOVED***/api/syllabi';
 
 const getAllSyllabi = async () => {
   const response = await axios.get(baseUrl);
