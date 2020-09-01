@@ -3,15 +3,41 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import Topbar from './components/Topbar';
 import Home from './components/Home';
 import Syllabi from './components/Syllabi';
-// import Add from './components/Add';
-import syllabiService from './services/syllabiService';
 import departmentService from './services/departmentService';
 
 const App = () => {
   const [courseDepartments, setCourses] = useState([{ id: 0, value: '', courseString: 'Course Department' }]);
   const [courseDept, setCourseDept] = useState('');
   const [courseNumber, setCourseNumber] = useState('');
+  const [findingUser, setFindingUser] = useState(true);
+  const [user, setUser] = useState(null);
+  // const [googleAuth, setGoogleAuth] = useState(null);
+  // const [isSignedIn, setIsSignedIn] = useState(false);
   const history = useHistory();
+
+  useEffect(() => {
+    if(window.gapi) {
+      window.gapi.load('auth2', () => {
+        const params = {
+          client_id: '***REMOVED***'
+        };
+
+        window.gapi.auth2.init(params)
+          .then(() => {
+            const googleAuth = window.gapi.auth2.getAuthInstance();
+            if(googleAuth.isSignedIn.get()) {
+              const googleUserProfile = googleAuth.currentUser.get().getBasicProfile();
+              setUser({
+                id: googleUserProfile.getId(),
+                name: googleUserProfile.getName(),
+                email: googleUserProfile.getEmail()
+              });
+            }
+            setFindingUser(false);
+          });
+      });
+    }
+  }, []);
 
   useEffect(() => {
     departmentService.getAllDepartments()
@@ -44,20 +70,12 @@ const App = () => {
     }
   };
 
-  const onSubmitSyllabus = async (newSyllabus) => {
-    await syllabiService.addSyllabus(newSyllabus);
-    // history.goBack();
-  };
-
   return (
     <div className='content-wrapper'>
-      <Topbar />
+      <Topbar user={user} setUser={setUser} findingUser={findingUser} />
       <Switch>
-        {/* <Route path='/syllabi/:courseDept/:courseNumber/add'>
-          <Add onSubmitSyllabus={onSubmitSyllabus} />
-        </Route> */}
         <Route path='/syllabi/:courseDept/:courseNumber'>
-          <Syllabi onSubmitSyllabus={onSubmitSyllabus} />
+          <Syllabi />
         </Route>
         <Route path='/'>
           <Home
