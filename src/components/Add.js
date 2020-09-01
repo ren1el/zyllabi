@@ -83,7 +83,6 @@ const Add = ({ onSubmitSyllabus }) => {
                 </div>
                 <div className='form-group'>
                   Quarter
-                  {/* <input type='text' className='form-control' id='quarter' onChange={onQuarterChanged} /> */}
                   <select className='form-control' id='quarter' onChange={onQuarterChanged}>
                     <option></option>
                     {quarters.map((quarter) => <option key={quarter} value={quarter}>{quarter}</option>)}
@@ -91,7 +90,6 @@ const Add = ({ onSubmitSyllabus }) => {
                 </div>
                 <div className='form-group'>
                   Year
-                  {/* <input type='text' className='form-control' id='year' onChange={onYearChanged} /> */}
                   <select className='form-control' id='year' onChange={onYearChanged}>
                     <option></option>
                     {years.map((year) => <option key={year} value={year}>{year}</option>)}
@@ -99,14 +97,13 @@ const Add = ({ onSubmitSyllabus }) => {
                 </div>
                 <div className='form-group'>
                   Upload
-                  {/* <input type='text' className='form-control' id='url' onChange={onUrlChanged} /> */}
                   <input type="file" className="form-control-file" id="exampleFormControlFile1" accept=".pdf, .docx" onChange={onFileChanged} />
                 </div>
               </form>
             </div>
             <div className='modal-footer'>
               <button type='button' className='btn btn-secondary' data-dismiss='modal'>Close</button>
-              <button type='button' className='btn btn-primary' onClick={onSubmitClicked}>Submit</button>
+              <button type='button' className='btn btn-primary' onClick={onSubmitClicked} data-dismiss='modal'>Submit</button>
             </div>
           </div>
         </div>
