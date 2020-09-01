@@ -77,7 +77,8 @@
 }
 
 .syllabus-heading {
-  height: 10%;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .syllabus-embed {
