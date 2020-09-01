@@ -5,8 +5,7 @@ const Syllabus = ({ syllabus }) => {
   return (
     <div className='syllabus'>
       <div className='syllabus-heading'>
-        <h2>{syllabus.instructor} - {syllabus.quarter} {syllabus.year}</h2>
-        <p>{syllabus.url}</p>
+        {syllabus.instructor} ({syllabus.quarter} {syllabus.year})
       </div>
       <div className='syllabus-embed'>
         <iframe title={syllabus.id} className='syllabi-embed' src={syllabus.url} />

@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom';
 import '../styles/Home.css';
 import syllabusService from '../services/syllabiService';
 import Syllabus from './Syllabus';
+import SyllabiOptions from './SyllabiOptions';
 import Add from './Add';
 
-const Syllabi = ({ onSubmitSyllabus }) => {
+const Syllabi = () => {
   const [syllabi, setSyllabi] = useState([]);
   const [syllabus, setSyllabus] = useState(null);
   const [message, setMessage] = useState('Loading...');
@@ -24,10 +25,16 @@ const Syllabi = ({ onSubmitSyllabus }) => {
       });
   }, [courseDept, courseNumber]);
 
+  const onSubmitSyllabus = async (newSyllabus) => {
+    const response = await syllabusService.addSyllabus(newSyllabus);
+    setSyllabi(syllabi.concat(response).sort((a, b) => b.year - a.year));
+  };
+
   if(syllabi.length === 0 || syllabus === null) {
     return (
       <div className='content center-content'>
         <div className='syllabi'>
+          <h1>{courseDept} {courseNumber}</h1>
           <Add onSubmitSyllabus={onSubmitSyllabus} />
           <p>{message}</p>
         </div>
@@ -38,19 +45,8 @@ const Syllabi = ({ onSubmitSyllabus }) => {
   return (
     <div className='content center-content'>
       <div className='syllabi'>
-        <div className='syllabi-options'>
-          <div className="dropdown mr-2">
-            <span className="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {syllabus.instructor} - {syllabus.quarter} {syllabus.year}
-            </span>
-
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              {syllabi.map((syllabus) => <span key={syllabus.id} className='dropdown-item' onClick={() => setSyllabus(syllabus)}>{syllabus.instructor} - {syllabus.quarter} {syllabus.year}</span>)}
-            </div>
-          </div>
-          <Add onSubmitSyllabus={onSubmitSyllabus} />
-        </div>
-        
+        <h1>{courseDept} {courseNumber}</h1>
+        <SyllabiOptions syllabi={syllabi} syllabus={syllabus} onSubmitSyllabus={onSubmitSyllabus} setSyllabi={setSyllabi} setSyllabus={setSyllabus} />
         <Syllabus key={syllabus.id} syllabus={syllabus} />
       </div>
     </div>
