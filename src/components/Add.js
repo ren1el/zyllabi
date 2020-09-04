@@ -5,59 +5,45 @@ import quarters from '../utils/quarters';
 import years from '../utils/years';
 import zyllabis3bucketService from '../services/zyllabis3bucketService';
 
-const Add = ({ onSubmitSyllabus }) => {
+const Add = ({ onSubmitSyllabus, user }) => {
   const [instructor, setInstructor] = useState('');
   const [quarter, setQuarter] = useState('');
   const [year, setYear] = useState('');
-  const [file, setFile] = useState({ fileName: null, fileType: null });
+  const [file, setFile] = useState(null);
   const department = useParams().courseDept;
   const courseNumber = useParams().courseNumber;
 
   const onInstructorChanged = (event) => {
-    event.preventDefault();
     setInstructor(event.target.value);
   };
 
   const onQuarterChanged = (event) => {
-    event.preventDefault();
     setQuarter(event.target.value);
   };
 
   const onYearChanged = (event) => {
-    event.preventDefault();
     setYear(event.target.value);
+  };
+
+  const onFileChanged = (event) => {
+    setFile(event.target.files[0]);
   };
 
   const onSubmitClicked = async (event) => {
     event.preventDefault();
-    const signedRequest = await getSignedRequest(file);
+    const signedRequest = await zyllabis3bucketService.getSignedRequest(file);
 
-    try {
-      await zyllabis3bucketService.getUrl(signedRequest.signedRequest, file);
-      const newSyllabus = {
-        department,
-        courseNumber,
-        instructor,
-        quarter,
-        year,
-        url: signedRequest.url
-      };
-  
-      onSubmitSyllabus(newSyllabus);
-    } catch(error) {
-      console.log(`Error uploading a file : ${error.message}`);
-    }
-  };
+    const newSyllabus = {
+      department,
+      courseNumber,
+      instructor,
+      quarter,
+      year,
+      url: signedRequest.url,
+      idToken: user.idToken
+    };
 
-  const getSignedRequest = async () => {
-    const response = await zyllabis3bucketService.getSignedRequest(file);
-    return response;
-  };
-
-  const onFileChanged = (event) => {
-    event.preventDefault();
-    console.log(event.target.files[0]);
-    setFile(event.target.files[0]);
+    onSubmitSyllabus(newSyllabus, signedRequest, file);
   };
 
   return (
@@ -79,18 +65,18 @@ const Add = ({ onSubmitSyllabus }) => {
               <form>
                 <div className='form-group'>
                   <label>Instructor (Last Name)</label>
-                  <input type='text' className='form-control' id='instructor' onChange={onInstructorChanged} />
+                  <input type='text' className='form-control' id='instructor' value={instructor} onChange={onInstructorChanged} />
                 </div>
                 <div className='form-group'>
                   Quarter
-                  <select className='form-control' id='quarter' onChange={onQuarterChanged}>
+                  <select className='form-control' id='quarter' value={quarter} onChange={onQuarterChanged}>
                     <option></option>
                     {quarters.map((quarter) => <option key={quarter} value={quarter}>{quarter}</option>)}
                   </select>
                 </div>
                 <div className='form-group'>
                   Year
-                  <select className='form-control' id='year' onChange={onYearChanged}>
+                  <select className='form-control' id='year' value={year} onChange={onYearChanged}>
                     <option></option>
                     {years.map((year) => <option key={year} value={year}>{year}</option>)}
                   </select>
