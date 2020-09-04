@@ -14,6 +14,10 @@
   justify-content: center;
 }
 
+.scrollable {
+  overflow-y: auto;
+}
+
 .topbar-wrapper {
   height: 4%;
   color: #000;
@@ -39,6 +43,9 @@
 .footer {
   height: 4%;
   background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .home {
@@ -46,6 +53,13 @@
   position: relative;
   top: 30%;
   left: 25%;
+}
+
+.profile {
+  width: 55%;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
 }
 
 .add {
@@ -79,6 +93,8 @@
 .syllabus-heading {
   text-transform: uppercase;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
 }
 
 .syllabus-embed {
@@ -93,7 +109,7 @@
   border-radius: 15px;
 }
 
-.home, .syllabi {
+.home, .syllabi, .profile {
   color: #FFF;
 }
 

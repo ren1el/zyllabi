@@ -1,8 +1,43 @@
-import React from 'react';
-import '../styles/Home.css';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import departmentService from '../services/departmentService';
 import CourseForm from './CourseForm';
+import '../styles/Home.css';
 
-const Home = ({ courseDepartments, onSubmitCourse, onCourseDeptChanged, onCourseNumberChanged }) => {
+const Home = () => {
+  const [courseDepartments, setCourses] = useState([{ id: 0, value: '', courseString: 'Course Department' }]);
+  const [courseDept, setCourseDept] = useState('');
+  const [courseNumber, setCourseNumber] = useState('');
+  const history = useHistory();
+
+  useEffect(() => {
+    departmentService.getAllDepartments()
+      .then((courseDepartments) => {
+        courseDepartments.sort((a, b) => {
+          return a.name > b.name ? 1 : -1;
+        });
+        setCourses(courseDepartments.sort((a, b) => a.name - b.name));
+      });
+  }, []);
+
+  const onCourseDeptChanged = (event) => {
+    setCourseDept(event.target.value);
+  };
+
+  const onCourseNumberChanged = (event) => {
+    setCourseNumber(event.target.value);
+  };
+
+  const onSubmitCourse = (event) => {
+    event.preventDefault();
+    if(courseDept === '' && courseNumber === '') console.log('Please add BOTH a course department and a course number');
+    else if(courseDept === '') console.log('Please add a course department');
+    else if(courseNumber === '') console.log('Please add a course number');
+    else {
+      history.push(`/syllabi/${courseDept}/${courseNumber}`);
+    }
+  };
+
   return (
     <div className='content'>
       <div className='home'>
