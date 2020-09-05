@@ -4,12 +4,14 @@ import '../styles/Home.css';
 import quarters from '../utils/quarters';
 import years from '../utils/years';
 import zyllabis3bucketService from '../services/zyllabis3bucketService';
+import ErrorNotification from './ErrorNotification';
 
 const Add = ({ onSubmitSyllabus, user }) => {
   const [instructor, setInstructor] = useState('');
   const [quarter, setQuarter] = useState('');
   const [year, setYear] = useState('');
   const [file, setFile] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const department = useParams().courseDept;
   const courseNumber = useParams().courseNumber;
 
@@ -30,20 +32,24 @@ const Add = ({ onSubmitSyllabus, user }) => {
   };
 
   const onSubmitClicked = async (event) => {
-    event.preventDefault();
-    const signedRequest = await zyllabis3bucketService.getSignedRequest(file);
+    try {
+      event.preventDefault();
+      const signedRequest = await zyllabis3bucketService.getSignedRequest(file);
 
-    const newSyllabus = {
-      department,
-      courseNumber,
-      instructor,
-      quarter,
-      year,
-      url: signedRequest.url,
-      idToken: user.idToken
-    };
+      const newSyllabus = {
+        department,
+        courseNumber,
+        instructor,
+        quarter,
+        year,
+        url: signedRequest.url,
+        idToken: user.idToken
+      };
 
-    onSubmitSyllabus(newSyllabus, signedRequest, file);
+      onSubmitSyllabus(newSyllabus, signedRequest, file);
+    } catch(error) {
+      setErrorMessage(error.message);
+    }
   };
 
   return (
@@ -63,6 +69,7 @@ const Add = ({ onSubmitSyllabus, user }) => {
             </div>
             <div className='modal-body'>
               <form>
+                {!(errorMessage === '') && <ErrorNotification message={errorMessage} />}
                 <div className='form-group'>
                   <label>Instructor (Last Name)</label>
                   <input type='text' className='form-control' id='instructor' value={instructor} onChange={onInstructorChanged} />

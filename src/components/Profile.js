@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import EditModal from './EditModal';
+import DeleteModal from './DeleteModal';
 import '../styles/Home.css';
 import usersService from '../services/usersService';
+import syllabiService from '../services/syllabiService';
 
 const Profile = ({ user, isUserResolved }) => {
   const [contributions, setContributions] = useState([]);
@@ -20,6 +23,13 @@ const Profile = ({ user, isUserResolved }) => {
       console.log(error.message);
     }
   }, [user]);
+
+  const deleteSyllabus = async (syllabusId) => {
+    setIsContributionsResolved(false);
+    await syllabiService.deleteSyllabus(syllabusId, user);
+    setIsContributionsResolved(true);
+    setContributions(contributions.filter((contribution) => contribution.id !== syllabusId));
+  };
 
   if(!isUserResolved) {
     return (
@@ -74,33 +84,13 @@ const Profile = ({ user, isUserResolved }) => {
                     <td>{quarter} {year}</td>
                     <td><a target='_blank' rel='noopener noreferrer' href={url}>PDF</a></td>
                     <td>
-                      <button className='btn btn-primary m-2'>Edit</button>
-                      <button className='btn btn-primary'>Delete</button>
+                      <EditModal syllabus={syllabus} />
+                      <DeleteModal syllabus={syllabus} handler={deleteSyllabus} />
                     </td>
                   </tr>);
               })}
             </tbody>
           </table>
-
-          // <ol>
-          //   {contributions.map((syllabus) => {
-          //     const id = syllabus.id;
-          //     const department = syllabus.course.department.name;
-          //     const courseNumber = syllabus.course.courseNumber;
-          //     const instructor = syllabus.instructor;
-          //     const quarter = syllabus.quarter;
-          //     const year = syllabus.year;
-          //     const url = syllabus.url;
-              
-          //     return (
-          //       <li key={id}>
-          //         <Link to={`/syllabi/${department}/${courseNumber}`}>{department} {courseNumber}</Link>
-          //          ({quarter} {year}) - {instructor} (<a target='_blank' rel='noopener noreferrer' href={url}>PDF</a>)
-          //         <button className='btn btn-primary m-2'>Edit</button>
-          //         <button className='btn btn-primary'>Delete</button>
-          //       </li>);
-          //   })}
-          // </ol>
         }
 
         {user && isContributionsResolved && contributions.length === 0 && <div>No Contributions</div>}

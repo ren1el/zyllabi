@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import '../styles/Home.css';
 import syllabusService from '../services/syllabiService';
 import zyllabis3bucketService from '../services/zyllabis3bucketService';
+import ErrorNotification from './ErrorNotification';
 import Syllabus from './Syllabus';
 import SyllabiDropdown from './SyllabiDropdown';
 import Add from './Add';
@@ -11,6 +12,7 @@ const Syllabi = ({ user }) => {
   const [syllabi, setSyllabi] = useState([]);
   const [syllabus, setSyllabus] = useState(null);
   const [isSyllabiResolved, setIsSyllabiResolved] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const courseDept = useParams().courseDept;
   const courseNumber = useParams().courseNumber;
 
@@ -21,8 +23,9 @@ const Syllabi = ({ user }) => {
         setSyllabus(data[0]);
         setIsSyllabiResolved(true);
       })
-      .catch(() => {
+      .catch((error) => {
         setIsSyllabiResolved(true);
+        setErrorMessage(error.message);
       });
   }, [courseDept, courseNumber]);
 
@@ -36,8 +39,8 @@ const Syllabi = ({ user }) => {
       setIsSyllabiResolved(true);
     } catch(error) {
       if(error.response) {
-        console.log(error.response.data.message);
         setIsSyllabiResolved(true);
+        setErrorMessage(error.response.data.message);
       }
     }
   };
@@ -58,6 +61,8 @@ const Syllabi = ({ user }) => {
   return (
     <div className='content center-content'>
       <div className='syllabi'>
+        {/* {!(errorMessage === '') && <ErrorNotification message={errorMessage} />} */}
+
         <h1>{courseDept} {courseNumber}</h1>
 
         {syllabi.length > 0 && user &&
@@ -75,7 +80,7 @@ const Syllabi = ({ user }) => {
 
         {!syllabi.length && user &&
           <div className='syllabi-options'>
-            {<Add onSubmitSyllabus={onSubmitSyllabus} user={user} />}
+            <Add onSubmitSyllabus={onSubmitSyllabus} user={user} />
           </div>
         }
 
