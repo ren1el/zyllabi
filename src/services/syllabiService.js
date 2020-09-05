@@ -16,4 +16,14 @@ const addSyllabus = async (newSyllabus) => {
   return response.data;
 };
 
-export default { getAllSyllabi, getSyllabus, addSyllabus };
+const deleteSyllabus = async (syllabusId, user) => {
+  const response = await axios.delete(`${baseUrl}/${syllabusId}`,
+    {
+      headers: {
+        Authorization: user.idToken
+      }
+    });
+  return response.data;
+};
+
+export default { getAllSyllabi, getSyllabus, addSyllabus, deleteSyllabus };
