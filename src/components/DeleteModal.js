@@ -16,7 +16,7 @@ const DeleteModal = ({ syllabus, handler }) => {
 
   return (
     <>
-      <Button className="m-1" variant="primary" onClick={handleShow}>
+      <Button className="m-1" variant="outline-light" onClick={handleShow}>
         Delete
       </Button>
 

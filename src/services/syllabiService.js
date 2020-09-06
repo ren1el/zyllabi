@@ -16,6 +16,16 @@ const addSyllabus = async (newSyllabus) => {
   return response.data;
 };
 
+const editSyllabus = async (syllabusId, user, newAttributes) => {
+  const response = await axios.patch(`${baseUrl}/${syllabusId}`, newAttributes,
+    {
+      headers: {
+        Authorization: user.idToken
+      }
+    });
+  return response.data;
+};
+
 const deleteSyllabus = async (syllabusId, user) => {
   const response = await axios.delete(`${baseUrl}/${syllabusId}`,
     {
@@ -26,4 +36,4 @@ const deleteSyllabus = async (syllabusId, user) => {
   return response.data;
 };
 
-export default { getAllSyllabi, getSyllabus, addSyllabus, deleteSyllabus };
+export default { getAllSyllabi, getSyllabus, addSyllabus, editSyllabus, deleteSyllabus };

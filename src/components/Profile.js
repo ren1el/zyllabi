@@ -24,6 +24,18 @@ const Profile = ({ user, isUserResolved }) => {
     }
   }, [user]);
 
+  const editSyllabus = async (syllabusId, newAttributes) => {
+    setIsContributionsResolved(false);
+    const response = await syllabiService.editSyllabus(syllabusId, user, newAttributes);
+    setIsContributionsResolved(true);
+    setContributions(contributions.map((contribution) => {
+      if(contribution.id === response.id) {
+        return response;
+      }
+      return contribution;
+    }));
+  };
+
   const deleteSyllabus = async (syllabusId) => {
     setIsContributionsResolved(false);
     await syllabiService.deleteSyllabus(syllabusId, user);
@@ -84,7 +96,7 @@ const Profile = ({ user, isUserResolved }) => {
                     <td>{quarter} {year}</td>
                     <td><a target='_blank' rel='noopener noreferrer' href={url}>PDF</a></td>
                     <td>
-                      <EditModal syllabus={syllabus} />
+                      <EditModal syllabus={syllabus} handler={editSyllabus} />
                       <DeleteModal syllabus={syllabus} handler={deleteSyllabus} />
                     </td>
                   </tr>);

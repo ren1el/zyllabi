@@ -3,7 +3,7 @@ import quarters from '../utils/quarters';
 import years from '../utils/years';
 import { Button, Modal, Form } from 'react-bootstrap';
 
-const EditModal = ({ syllabus }) => {
+const EditModal = ({ syllabus, handler }) => {
   const [show, setShow] = useState(false);
   const [instructor, setInstructor] = useState(syllabus.instructor);
   const [quarter, setQuarter] = useState(syllabus.quarter);
@@ -14,13 +14,13 @@ const EditModal = ({ syllabus }) => {
   const handleClose = () => setShow(false);
 
   const handleSave = () => {
-    console.log('Saving...');
     handleClose();
+    handler(syllabus.id, { instructor, quarter, year });
   };
 
   return (
     <>
-      <Button className="m-1" variant="primary" onClick={handleShow}>
+      <Button className="m-1" variant="outline-light" onClick={handleShow}>
         Edit
       </Button>
 

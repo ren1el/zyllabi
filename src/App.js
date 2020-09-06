@@ -27,7 +27,7 @@ const App = () => {
               setUser({
                 id: googleUserProfile.getId(),
                 idToken: googleAuth.currentUser.get().getAuthResponse().id_token,
-                name: googleUserProfile.getName(),
+                name: googleUserProfile.getGivenName(),
                 email: googleUserProfile.getEmail()
               });
             }
@@ -35,8 +35,6 @@ const App = () => {
             setIsUserResolved(true);
           });
       });
-    } else {
-      setIsUserResolved(true);
     }
   }, []);
 
