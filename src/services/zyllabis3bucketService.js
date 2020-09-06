@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://192.168.1.150:3001/api/zyllabis3bucket';
+const baseUrl = `http://${process.env.REACT_APP_SERVER_PORT}/api/zyllabis3bucket`; //eslint-disable-line
 
 const getSignedRequest = async (file) => {
   const fileParams = {

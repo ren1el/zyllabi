@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://192.168.1.150:3001/api/user';
+const baseUrl = `http://${process.env.REACT_APP_SERVER_PORT}/api/user`; //eslint-disable-line
 
 const getUserContributions = async (googleId) => {
   const response = await axios.get(`${baseUrl}/${googleId}`);

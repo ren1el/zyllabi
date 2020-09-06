@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://192.168.1.150:3001/api/departments';
+const baseUrl = `http://${process.env.REACT_APP_SERVER_PORT}/api/departments`; //eslint-disable-line
 
 const getAllDepartments = async () => {
   const response = await axios.get(baseUrl);

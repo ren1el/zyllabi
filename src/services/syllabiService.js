@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://192.168.1.150:3001/api/syllabi';
+const baseUrl = `http://${process.env.REACT_APP_SERVER_PORT}/api/syllabi`; //eslint-disable-line
 
 const getAllSyllabi = async () => {
   const response = await axios.get(baseUrl);
