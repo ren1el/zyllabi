@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://***REMOVED***/api/departments';
+const baseUrl = 'http://192.168.1.150:3001/api/departments';
 
 const getAllDepartments = async () => {
   const response = await axios.get(baseUrl);
