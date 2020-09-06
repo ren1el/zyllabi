@@ -1,12 +1,13 @@
 import React, { useState} from 'react';
 import { useParams } from 'react-router-dom';
+import { Button, Modal, Form } from 'react-bootstrap';
 import '../styles/Home.css';
 import quarters from '../utils/quarters';
 import years from '../utils/years';
-import zyllabis3bucketService from '../services/zyllabis3bucketService';
-import ErrorNotification from './ErrorNotification';
+import Notification from './Notification';
 
-const Add = ({ onSubmitSyllabus, user }) => {
+const Add = ({ onSubmitSyllabus }) => {
+  const [show, setShow] = useState(false);
   const [instructor, setInstructor] = useState('');
   const [quarter, setQuarter] = useState('');
   const [year, setYear] = useState('');
@@ -15,93 +16,100 @@ const Add = ({ onSubmitSyllabus, user }) => {
   const department = useParams().courseDept;
   const courseNumber = useParams().courseNumber;
 
-  const onInstructorChanged = (event) => {
-    setInstructor(event.target.value);
-  };
+  const handleClose = () => setShow(false);
 
-  const onQuarterChanged = (event) => {
-    setQuarter(event.target.value);
-  };
-
-  const onYearChanged = (event) => {
-    setYear(event.target.value);
-  };
+  const handleShow = () => setShow(true);
 
   const onFileChanged = (event) => {
     setFile(event.target.files[0]);
   };
 
-  const onSubmitClicked = async (event) => {
-    try {
-      event.preventDefault();
-      const signedRequest = await zyllabis3bucketService.getSignedRequest(file);
+  const onSubmitClicked = (event) => {
+    event.preventDefault();
 
-      const newSyllabus = {
-        department,
-        courseNumber,
-        instructor,
-        quarter,
-        year,
-        url: signedRequest.url,
-        idToken: user.idToken
-      };
-
-      onSubmitSyllabus(newSyllabus, signedRequest, file);
-    } catch(error) {
-      setErrorMessage(error.message);
+    //verify form
+    if(instructor === '') {
+      setErrorMessage('Please specify an instructor.');
+      return;
+    } else if(quarter === '') {
+      setErrorMessage('Please sepcify a quarter.');
+      return;
+    } else if(!quarters.includes(quarter)) {
+      setErrorMessage('Please specify a valid quarter (Fall, Winter, Spring, or Summer).');
+      return;
+    } else if(year === '') {
+      setErrorMessage('Please specify a year.');
+      return;
+    } else if(!years.includes(year)) {
+      setErrorMessage('Please specify a valid year.');
+      return;
+    } else if(file === null) {
+      setErrorMessage('Please upload a syllabus.');
+      return;
     }
+
+    //submit syllabus
+    handleClose();
+    onSubmitSyllabus({
+      department,
+      courseNumber,
+      instructor,
+      quarter,
+      year,
+      file
+    });
   };
 
   return (
-    <div>
-      <button type='button' className='btn btn-primary' data-toggle='modal' data-target='#addModal'>
+    <>
+      <Button variant="primary" onClick={handleShow}>
         Add
-      </button>
+      </Button>
 
-      <div className='modal fade add' id='addModal'>
-        <div className='modal-dialog' role='document'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <h5 className='modal-title' id='exampleModalLongTitle'>Add syllabus for {department} {courseNumber}</h5>
-              <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
-                <span aria-hidden='true'>&times;</span>
-              </button>
-            </div>
-            <div className='modal-body'>
-              <form>
-                {!(errorMessage === '') && <ErrorNotification message={errorMessage} />}
-                <div className='form-group'>
-                  <label>Instructor (Last Name)</label>
-                  <input type='text' className='form-control' id='instructor' value={instructor} onChange={onInstructorChanged} />
-                </div>
-                <div className='form-group'>
-                  Quarter
-                  <select className='form-control' id='quarter' value={quarter} onChange={onQuarterChanged}>
-                    <option></option>
-                    {quarters.map((quarter) => <option key={quarter} value={quarter}>{quarter}</option>)}
-                  </select>
-                </div>
-                <div className='form-group'>
-                  Year
-                  <select className='form-control' id='year' value={year} onChange={onYearChanged}>
-                    <option></option>
-                    {years.map((year) => <option key={year} value={year}>{year}</option>)}
-                  </select>
-                </div>
-                <div className='form-group'>
-                  Upload
-                  <input type="file" className="form-control-file" id="exampleFormControlFile1" accept=".pdf, .docx" onChange={onFileChanged} />
-                </div>
-              </form>
-            </div>
-            <div className='modal-footer'>
-              <button type='button' className='btn btn-secondary' data-dismiss='modal'>Close</button>
-              <button type='button' className='btn btn-primary' onClick={onSubmitClicked} data-dismiss='modal'>Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Syllabus for {department} {courseNumber}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {!(errorMessage === '') && <Notification variant="danger" message={errorMessage} setMessage={setErrorMessage} />}
+          <Form>
+            <Form.Group controlId="instructor">
+              <Form.Label>Instructor (Last Name)</Form.Label>
+              <Form.Control type="text" value={instructor} onChange={({ target }) => setInstructor(target.value)}/>
+            </Form.Group>
+
+            <Form.Group controlId="quarter">
+              <Form.Label>Quarter</Form.Label>
+              <Form.Control as="select" value={quarter} onChange={({ target }) => setQuarter(target.value)}>
+                <option></option>
+                {quarters.map((savedQuarter) => <option key={savedQuarter} value={savedQuarter}>{savedQuarter}</option>)}
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="year">
+              <Form.Label>Year</Form.Label>
+              <Form.Control as="select" value={year} onChange={({ target }) => setYear(target.value)}>
+                <option></option>
+                {years.map((savedYear) => <option key={savedYear} value={savedYear}>{savedYear}</option>)}
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Upload (.pdf, .docx)</Form.Label>
+              <Form.File id="upload" accept=".pdf, .docx" onChange={onFileChanged} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={onSubmitClicked}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 

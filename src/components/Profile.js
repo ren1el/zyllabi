@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
-import '../styles/Home.css';
+import Loading from './Loading';
 import usersService from '../services/usersService';
 import syllabiService from '../services/syllabiService';
 
@@ -47,9 +47,7 @@ const Profile = ({ user, isUserResolved }) => {
     return (
       <div className='content center-content'>
         <div className='profile'>
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+          <Loading size="lg" />
         </div>
       </div>
     );
@@ -58,14 +56,12 @@ const Profile = ({ user, isUserResolved }) => {
   return (
     <div className='content center-content scrollable'>
       <div className='profile'>
-        {!user && <p>Login</p>}
+        {!user && <p className="text-center">Login to continue!</p>}
 
-        {user && <h2>{user.name}</h2>}
+        {user && <h2>Your Contributions</h2>}
 
         {user && !isContributionsResolved && 
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+          <Loading size="lg" />
         }
 
         {user && isContributionsResolved && contributions.length > 0 && 

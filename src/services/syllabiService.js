@@ -11,8 +11,13 @@ const getSyllabus = async (courseDept, courseNumber) => {
   return response.data;
 };
 
-const addSyllabus = async (newSyllabus) => {
-  const response = await axios.post(baseUrl, newSyllabus);
+const addSyllabus = async (newSyllabus, user) => {
+  const response = await axios.post(baseUrl, newSyllabus, 
+    {
+      headers: {
+        Authorization: user.idToken
+      }
+    });
   return response.data;
 };
 

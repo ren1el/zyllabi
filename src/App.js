@@ -4,6 +4,7 @@ import Topbar from './components/Topbar';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Syllabi from './components/Syllabi';
+import Departments from './components/Departments';
 import Footer from './components/Footer';
 
 const App = () => {
@@ -47,6 +48,9 @@ const App = () => {
         </Route>
         <Route path='/profile'>
           <Profile user={user} isUserResolved={isUserResolved} />
+        </Route>
+        <Route path='/departments'>
+          <Departments />
         </Route>
         <Route path='/'>
           <Home />

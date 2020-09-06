@@ -51,10 +51,10 @@ const EditModal = ({ syllabus, handler }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="outline-dark" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSave}>
+          <Button variant="outline-success" onClick={handleSave}>
             Save
           </Button>
         </Modal.Footer>

@@ -3,16 +3,18 @@ import { useParams } from 'react-router-dom';
 import '../styles/Home.css';
 import syllabusService from '../services/syllabiService';
 import zyllabis3bucketService from '../services/zyllabis3bucketService';
-import ErrorNotification from './ErrorNotification';
+import Notification from './Notification';
 import Syllabus from './Syllabus';
 import SyllabiDropdown from './SyllabiDropdown';
 import Add from './Add';
+import Loading from './Loading';
 
 const Syllabi = ({ user }) => {
   const [syllabi, setSyllabi] = useState([]);
   const [syllabus, setSyllabus] = useState(null);
   const [isSyllabiResolved, setIsSyllabiResolved] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const courseDept = useParams().courseDept;
   const courseNumber = useParams().courseNumber;
 
@@ -23,25 +25,32 @@ const Syllabi = ({ user }) => {
         setSyllabus(data[0]);
         setIsSyllabiResolved(true);
       })
-      .catch((error) => {
+      .catch(() => {
         setIsSyllabiResolved(true);
-        setErrorMessage(error.message);
       });
   }, [courseDept, courseNumber]);
 
-  const onSubmitSyllabus = async (newSyllabus, signedRequest, file) => {
+  const onSubmitSyllabus = async (attributes) => {
     try {
       setIsSyllabiResolved(false);
-      const response = await syllabusService.addSyllabus(newSyllabus);
-      await zyllabis3bucketService.putSyllabus(signedRequest.signedRequest, file);
+      const signedRequest = await zyllabis3bucketService.getSignedRequest(attributes.file);
+      const newSyllabus = {
+        department: attributes.department,
+        courseNumber: attributes.courseNumber,
+        instructor: attributes.instructor,
+        quarter: attributes.quarter,
+        year: attributes.year,
+        url: signedRequest.url
+      };
+      const response = await syllabusService.addSyllabus(newSyllabus, user);
+      await zyllabis3bucketService.putSyllabus(signedRequest.signedRequest, attributes.file);
       setSyllabi(syllabi.concat(response).sort((a, b) => b.year - a.year));
       setSyllabus(response);
       setIsSyllabiResolved(true);
+      setSuccessMessage('Successfully uploaded syllabus.');
     } catch(error) {
-      if(error.response) {
-        setIsSyllabiResolved(true);
-        setErrorMessage(error.response.data.message);
-      }
+      setIsSyllabiResolved(true);
+      setErrorMessage(error.message);
     }
   };
 
@@ -50,9 +59,7 @@ const Syllabi = ({ user }) => {
       <div className='content center-content'>
         <div className='syllabi'>
           <h1>{courseDept} {courseNumber}</h1>
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+          <Loading size="lg" />
         </div>
       </div>
     );
@@ -61,7 +68,8 @@ const Syllabi = ({ user }) => {
   return (
     <div className='content center-content'>
       <div className='syllabi'>
-        {/* {!(errorMessage === '') && <ErrorNotification message={errorMessage} />} */}
+        {!(errorMessage === '') && <Notification variant="danger" message={errorMessage} setMessage={setErrorMessage} />}
+        {!(successMessage === '') && <Notification variant="success" message={successMessage} setMessage={setSuccessMessage} />}
 
         <h1>{courseDept} {courseNumber}</h1>
 
@@ -89,27 +97,6 @@ const Syllabi = ({ user }) => {
       </div>
     </div>
   );
-
-  // if(syllabi.length === 0 || syllabus === null) {
-  //   return (
-  //     <div className='content center-content'>
-  //       <div className='syllabi'>
-  //         <h1>{courseDept} {courseNumber}</h1>
-  //         <SyllabiOptions syllabi={syllabi} syllabus={syllabus} onSubmitSyllabus={onSubmitSyllabus} setSyllabus={setSyllabus} user={user} />
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // return (
-  //   <div className='content center-content'>
-  //     <div className='syllabi'>
-  //       <h1>{courseDept} {courseNumber}</h1>
-  //       <SyllabiOptions syllabi={syllabi} syllabus={syllabus} onSubmitSyllabus={onSubmitSyllabus} setSyllabus={setSyllabus} user={user} />
-  //       <Syllabus key={syllabus.id} syllabus={syllabus} user={user} />
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default Syllabi;

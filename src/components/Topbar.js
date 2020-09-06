@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Dropdown } from 'react-bootstrap';
-import '../styles/Home.css';
+import Loading from './Loading';
 
 const Topbar = ({ user, setUser, isUserResolved }) => {
   const history = useHistory();
@@ -51,10 +51,10 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
     <div className='topbar-wrapper'>
       <div className='topbar'>
         <h1 className='topbar-header'><Link to='/'>Zyllabi</Link></h1>
-        <span>
+        <div className="user">
           {!isUserResolved && 
-            <div className="spinner-border" role="status">
-              <span className="sr-only">Loading...</span>
+            <div className="loading-center">
+              <Loading size="sm" />
             </div>
           }
             
@@ -71,11 +71,12 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
               <Dropdown.Menu>
                 <Dropdown.Header><strong>{user.name}</strong></Dropdown.Header>
                 <Dropdown.Item onClick={() => history.push('/profile')} >Profile</Dropdown.Item>
+                <Dropdown.Item onClick={() => history.push('/departments')} >Database</Dropdown.Item>
                 <Dropdown.Item onClick={onLogoutClicked}>Logout</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           }
-        </span>
+        </div>
       </div>
     </div>
   );

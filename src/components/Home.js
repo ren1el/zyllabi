@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import departmentService from '../services/departmentService';
 import CourseForm from './CourseForm';
-import '../styles/Home.css';
 
 const Home = () => {
   const [courseDepartments, setCourses] = useState([{ id: 0, value: '', courseString: 'Course Department' }]);
@@ -51,7 +50,7 @@ const Home = () => {
           onCourseNumberChanged={onCourseNumberChanged} 
         />
         <p className='eg'>e.g. MATH 2A</p>
-        <p>...or click here to look through the database!</p>
+        <p>...or click <Link to='/departments'>here</Link> to look through the database!</p>
       </div>
     </div>
   );

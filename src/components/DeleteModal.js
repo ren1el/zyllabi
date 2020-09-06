@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-// import syllabiService from '../services/syllabiService';
 
 const DeleteModal = ({ syllabus, handler }) => {
   const [show, setShow] = useState(false);
@@ -28,10 +27,10 @@ const DeleteModal = ({ syllabus, handler }) => {
           Are you sure you want to delete this syllabus for <strong>{syllabus.course.department.name} {syllabus.course.courseNumber}</strong>?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="outline-dark" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleDelete}>
+          <Button variant="outline-danger" onClick={handleDelete}>
             Delete
           </Button>
         </Modal.Footer>
