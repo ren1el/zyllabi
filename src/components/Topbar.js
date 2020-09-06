@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { Button, Dropdown } from 'react-bootstrap';
 import '../styles/Home.css';
 
 const Topbar = ({ user, setUser, isUserResolved }) => {
@@ -33,7 +34,7 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
 
   const onLogoutClicked = (event) => {
     event.preventDefault();
-
+    
     if(window.gapi) {
       const googleAuth = window.gapi.auth2.getAuthInstance();
 
@@ -50,16 +51,31 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
     <div className='topbar-wrapper'>
       <div className='topbar'>
         <h1 className='topbar-header'><Link to='/'>Zyllabi</Link></h1>
-        {!isUserResolved && 
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>}
-        {!user && isUserResolved && <button className='btn btn-dark btn-sm' onClick={onLoginClicked}>Login</button>}
-        {user && isUserResolved &&
-          <span>
-            Logged in As: <Link to='/profile'>{user.name}</Link>
-            <button className='btn btn-dark btn-sm ml-1' onClick={onLogoutClicked}>Logout</button>
-          </span>}
+        <span>
+          {!isUserResolved && 
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          }
+            
+          {!user && isUserResolved && 
+            <Button variant="outline-dark" onClick={onLoginClicked} size="sm">Login</Button>
+          }
+
+          {user && isUserResolved &&
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-dark" size="sm">
+                User{' '}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Header><strong>{user.name}</strong></Dropdown.Header>
+                <Dropdown.Item onClick={() => history.push('/profile')} >Profile</Dropdown.Item>
+                <Dropdown.Item onClick={onLogoutClicked}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          }
+        </span>
       </div>
     </div>
   );
