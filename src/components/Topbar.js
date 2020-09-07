@@ -48,9 +48,9 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
   };
 
   return (
-    <div className='topbar-wrapper'>
-      <div className='topbar'>
-        <h1 className='topbar-header'><Link to='/'>Zyllabi</Link></h1>
+    <div className="topbar-wrapper">
+      <div className="topbar">
+        <h1 className="topbar-header"><Link to="/">Zyllabi</Link></h1>
         <div className="user">
           {!isUserResolved && 
             <div className="loading-center">
@@ -70,8 +70,9 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
 
               <Dropdown.Menu>
                 <Dropdown.Header><strong>{user.name}</strong></Dropdown.Header>
-                <Dropdown.Item onClick={() => history.push('/profile')} >Profile</Dropdown.Item>
-                <Dropdown.Item onClick={() => history.push('/departments')} >Database</Dropdown.Item>
+                <Dropdown.Item onClick={() => history.push('/')}>Home</Dropdown.Item>
+                <Dropdown.Item onClick={() => history.push('/profile')}>Profile</Dropdown.Item>
+                <Dropdown.Item onClick={() => history.push('/departments')}>Database</Dropdown.Item>
                 <Dropdown.Item onClick={onLogoutClicked}>Logout</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

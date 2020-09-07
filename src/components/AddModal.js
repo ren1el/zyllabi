@@ -1,38 +1,38 @@
 import React, { useState} from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
-import '../styles/Home.css';
 import quarters from '../utils/quarters';
 import years from '../utils/years';
 import Notification from './Notification';
 
-const Add = ({ onSubmitSyllabus }) => {
+const AddModal = ({ onSubmitSyllabus }) => {
   const [show, setShow] = useState(false);
   const [instructor, setInstructor] = useState('');
   const [quarter, setQuarter] = useState('');
   const [year, setYear] = useState('');
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const department = useParams().courseDept;
-  const courseNumber = useParams().courseNumber;
-
-  const handleClose = () => setShow(false);
+  const department = useParams().courseDept.toUpperCase();
+  const courseNumber = useParams().courseNumber.toUpperCase();
 
   const handleShow = () => setShow(true);
 
-  const onFileChanged = (event) => {
-    setFile(event.target.files[0]);
+  const handleClose = () => {
+    setShow(false);
+    setInstructor('');
+    setQuarter('');
+    setYear('');
+    setFile(null);
   };
 
   const onSubmitClicked = (event) => {
     event.preventDefault();
 
-    //verify form
     if(instructor === '') {
       setErrorMessage('Please specify an instructor.');
       return;
     } else if(quarter === '') {
-      setErrorMessage('Please sepcify a quarter.');
+      setErrorMessage('Please specify a quarter.');
       return;
     } else if(!quarters.includes(quarter)) {
       setErrorMessage('Please specify a valid quarter (Fall, Winter, Spring, or Summer).');
@@ -48,7 +48,6 @@ const Add = ({ onSubmitSyllabus }) => {
       return;
     }
 
-    //submit syllabus
     handleClose();
     onSubmitSyllabus({
       department,
@@ -96,7 +95,7 @@ const Add = ({ onSubmitSyllabus }) => {
 
             <Form.Group>
               <Form.Label>Upload (.pdf, .docx)</Form.Label>
-              <Form.File id="upload" accept=".pdf, .docx" onChange={onFileChanged} />
+              <Form.File id="upload" accept=".pdf, .docx" onChange={({ target }) => setFile(target.files[0])} />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -113,4 +112,4 @@ const Add = ({ onSubmitSyllabus }) => {
   );
 };
 
-export default Add;
+export default AddModal;

@@ -1,19 +1,42 @@
 import React, { useState } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
 import quarters from '../utils/quarters';
 import years from '../utils/years';
-import { Button, Modal, Form } from 'react-bootstrap';
+import Notification from './Notification';
 
 const EditModal = ({ syllabus, handler }) => {
   const [show, setShow] = useState(false);
   const [instructor, setInstructor] = useState(syllabus.instructor);
   const [quarter, setQuarter] = useState(syllabus.quarter);
-  const [year, setYear] = useState(syllabus.year);
+  const [year, setYear] = useState(syllabus.year.toString());
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleShow = () => setShow(true);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setInstructor(syllabus.instructor);
+    setQuarter(syllabus.quarter);
+    setYear(syllabus.year);
+  };
 
   const handleSave = () => {
+    if(instructor === '') {
+      setErrorMessage('Please specify an instructor.');
+      return;
+    } else if(quarter === '') {
+      setErrorMessage('Please sepcify a quarter.');
+      return;
+    } else if(!quarters.includes(quarter)) {
+      setErrorMessage('Please specify a valid quarter (Fall, Winter, Spring, or Summer).');
+      return;
+    } else if(year === '') {
+      setErrorMessage('Please specify a year.');
+      return;
+    } else if(!years.includes(year)) {
+      setErrorMessage('Please specify a valid year.');
+      return;
+    }
     handleClose();
     handler(syllabus.id, { instructor, quarter, year });
   };
@@ -29,6 +52,7 @@ const EditModal = ({ syllabus, handler }) => {
           <Modal.Title>Edit Syllabus for {syllabus.course.department.name} {syllabus.course.courseNumber}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {!(errorMessage === '') && <Notification variant="danger" message={errorMessage} setMessage={setErrorMessage} />}
           <Form>
             <Form.Group controlId="instructor">
               <Form.Label>Instructor</Form.Label>

@@ -4,7 +4,7 @@ import { Alert } from 'react-bootstrap';
 const Notification = ({ variant, message, setMessage }) => {
   setTimeout(() => {
     setMessage('');
-  }, 3000);
+  }, 3500);
 
   return (
     <Alert variant={variant}>

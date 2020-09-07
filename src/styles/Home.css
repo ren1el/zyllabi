@@ -76,6 +76,10 @@
   border-bottom: 2px solid #FFF;
 }
 
+.department-list {
+  list-style-position: inside;
+}
+
 .user {
   width: 10%;
   height: 100%;
@@ -124,6 +128,7 @@
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+  margin: .2em;
 }
 
 .syllabus-embed {
@@ -155,4 +160,8 @@
 
 .custom-select {
   width: 200px;
+}
+
+.table-custom-style {
+  color: #FFF;
 }

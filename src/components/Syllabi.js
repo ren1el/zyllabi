@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import '../styles/Home.css';
 import syllabusService from '../services/syllabiService';
 import zyllabis3bucketService from '../services/zyllabis3bucketService';
-import Notification from './Notification';
-import Syllabus from './Syllabus';
-import SyllabiDropdown from './SyllabiDropdown';
-import Add from './Add';
 import Loading from './Loading';
+import Notification from './Notification';
+import SyllabiDropdown from './SyllabiDropdown';
+import AddModal from './AddModal';
+import Syllabus from './Syllabus';
 
 const Syllabi = ({ user }) => {
   const [syllabi, setSyllabi] = useState([]);
@@ -15,8 +14,8 @@ const Syllabi = ({ user }) => {
   const [isSyllabiResolved, setIsSyllabiResolved] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const courseDept = useParams().courseDept;
-  const courseNumber = useParams().courseNumber;
+  const courseDept = useParams().courseDept.toUpperCase();
+  const courseNumber = useParams().courseNumber.toUpperCase();
 
   useEffect(() => {
     syllabusService.getSyllabus(courseDept, courseNumber)
@@ -47,7 +46,7 @@ const Syllabi = ({ user }) => {
       setSyllabi(syllabi.concat(response).sort((a, b) => b.year - a.year));
       setSyllabus(response);
       setIsSyllabiResolved(true);
-      setSuccessMessage('Successfully uploaded syllabus.');
+      setSuccessMessage('Successfully uploaded syllabus. Go to your profile page to see your contributions.');
     } catch(error) {
       setIsSyllabiResolved(true);
       setErrorMessage(error.message);
@@ -56,8 +55,8 @@ const Syllabi = ({ user }) => {
 
   if(!isSyllabiResolved) {
     return (
-      <div className='content center-content'>
-        <div className='syllabi'>
+      <div className="content center-content">
+        <div className="syllabi">
           <h1>{courseDept} {courseNumber}</h1>
           <Loading size="lg" />
         </div>
@@ -66,29 +65,29 @@ const Syllabi = ({ user }) => {
   }
 
   return (
-    <div className='content center-content'>
-      <div className='syllabi'>
+    <div className="content center-content">
+      <div className="syllabi">
         {!(errorMessage === '') && <Notification variant="danger" message={errorMessage} setMessage={setErrorMessage} />}
         {!(successMessage === '') && <Notification variant="success" message={successMessage} setMessage={setSuccessMessage} />}
 
         <h1>{courseDept} {courseNumber}</h1>
 
         {syllabi.length > 0 && user &&
-          <div className='syllabi-options'>
+          <div className="syllabi-options">
             {syllabi.length > 0 && <SyllabiDropdown syllabi={syllabi} syllabus={syllabus} setSyllabus={setSyllabus} />}
-            <Add onSubmitSyllabus={onSubmitSyllabus} user={user} />
+            <AddModal onSubmitSyllabus={onSubmitSyllabus} user={user} />
           </div>
         }
 
         {syllabi.length > 0 && !user &&
-          <div className='syllabi-options'>
+          <div className="syllabi-options">
             {syllabi.length > 0 && <SyllabiDropdown syllabi={syllabi} syllabus={syllabus} setSyllabus={setSyllabus} />}
           </div>
         }
 
         {!syllabi.length && user &&
-          <div className='syllabi-options'>
-            <Add onSubmitSyllabus={onSubmitSyllabus} user={user} />
+          <div className="syllabi-options">
+            <AddModal onSubmitSyllabus={onSubmitSyllabus} user={user} />
           </div>
         }
 

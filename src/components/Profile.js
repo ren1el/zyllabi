@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import EditModal from './EditModal';
-import DeleteModal from './DeleteModal';
-import Loading from './Loading';
+import { Table } from 'react-bootstrap';
 import usersService from '../services/usersService';
 import syllabiService from '../services/syllabiService';
+import Loading from './Loading';
+import EditModal from './EditModal';
+import DeleteModal from './DeleteModal';
 
 const Profile = ({ user, isUserResolved }) => {
   const [contributions, setContributions] = useState([]);
@@ -45,8 +46,8 @@ const Profile = ({ user, isUserResolved }) => {
 
   if(!isUserResolved) {
     return (
-      <div className='content center-content'>
-        <div className='profile'>
+      <div className="content center-content">
+        <div className="profile">
           <Loading size="lg" />
         </div>
       </div>
@@ -54,18 +55,18 @@ const Profile = ({ user, isUserResolved }) => {
   }
 
   return (
-    <div className='content center-content scrollable'>
-      <div className='profile'>
+    <div className="content center-content scrollable">
+      <div className="profile">
         {!user && <p className="text-center">Login to continue!</p>}
 
-        {user && <h2>Your Contributions</h2>}
+        {user && <h1>Your Contributions</h1>}
 
         {user && !isContributionsResolved && 
           <Loading size="lg" />
         }
 
         {user && isContributionsResolved && contributions.length > 0 && 
-          <table className='text-center'>
+          <Table className="table-custom-style text-center" responsive borderless hover>
             <thead>
               <tr>
                 <th>Course</th>
@@ -90,7 +91,7 @@ const Profile = ({ user, isUserResolved }) => {
                     <td><Link to={`/syllabi/${department}/${courseNumber}`}>{department} {courseNumber}</Link></td>
                     <td>{instructor}</td>
                     <td>{quarter} {year}</td>
-                    <td><a target='_blank' rel='noopener noreferrer' href={url}>PDF</a></td>
+                    <td><a target="_blank" rel="noopener noreferrer" href={url}>PDF</a></td>
                     <td>
                       <EditModal syllabus={syllabus} handler={editSyllabus} />
                       <DeleteModal syllabus={syllabus} handler={deleteSyllabus} />
@@ -98,7 +99,7 @@ const Profile = ({ user, isUserResolved }) => {
                   </tr>);
               })}
             </tbody>
-          </table>
+          </Table>
         }
 
         {user && isContributionsResolved && contributions.length === 0 && <div>No Contributions</div>}

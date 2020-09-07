@@ -1,15 +1,20 @@
 import React from 'react';
+import { Form, Button} from 'react-bootstrap';
 
 const CourseForm = ({ courseDepartments, onSubmitCourse, onCourseDeptChanged, onCourseNumberChanged }) => {
   return (
-    <form className='form-inline' onSubmit={onSubmitCourse}>
-      <select className='custom-select m-1' onChange={onCourseDeptChanged}>
-        <option value=''>Course Department</option>
-        {courseDepartments.map((course) => <option key={course.id} value={course.name}>{course.name}</option>)}
-      </select>
-      <input type='text' className='form-control m-1' onChange={onCourseNumberChanged} placeholder='Course Number' />
-      <input type='submit' className='btn btn-light m-1' value='Submit' />
-    </form>
+    <Form onSubmit={onSubmitCourse} inline>
+      <Form.Group controlId="departments">
+        <Form.Control className="mr-1" as="select" onChange={onCourseDeptChanged}>
+          <option value="">Course Department</option>
+          {courseDepartments.map((course) => <option key={course.id} value={course.name}>{course.name}</option>)}
+        </Form.Control>
+        <Form.Control className="ml-1 mr-1" type="text" onChange={onCourseNumberChanged} placeholder="Course Number" />
+        <Button className="ml-1" variant="light" type="submit">
+          Submit
+        </Button>
+      </Form.Group>
+    </Form>
   );
 };
 
