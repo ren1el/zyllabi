@@ -94,8 +94,8 @@ const AddModal = ({ onSubmitSyllabus }) => {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Upload (.pdf, .docx)</Form.Label>
-              <Form.File id="upload" accept=".pdf, .docx" onChange={({ target }) => setFile(target.files[0])} />
+              <Form.Label>Upload (.pdf, .doc, .docx)</Form.Label>
+              <Form.File id="upload" accept=".pdf, .doc, .docx" onChange={({ target }) => setFile(target.files[0])} />
             </Form.Group>
           </Form>
         </Modal.Body>

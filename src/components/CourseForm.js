@@ -3,14 +3,14 @@ import { Form, Button} from 'react-bootstrap';
 
 const CourseForm = ({ courseDepartments, onSubmitCourse, onCourseDeptChanged, onCourseNumberChanged }) => {
   return (
-    <Form onSubmit={onSubmitCourse} inline>
-      <Form.Group controlId="departments">
-        <Form.Control className="mr-1" as="select" onChange={onCourseDeptChanged}>
+    <Form className="home-form" onSubmit={onSubmitCourse} inline>
+      <Form.Group className="home-form-group" controlId="departments">
+        <Form.Control className="home-form-department" as="select" onChange={onCourseDeptChanged}>
           <option value="">Course Department</option>
           {courseDepartments.map((course) => <option key={course.id} value={course.name}>{course.name}</option>)}
         </Form.Control>
-        <Form.Control className="ml-1 mr-1" type="text" onChange={onCourseNumberChanged} placeholder="Course Number" />
-        <Button className="ml-1" variant="light" type="submit">
+        <Form.Control className="home-form-course-number" type="text" onChange={onCourseNumberChanged} placeholder="Course Number" />
+        <Button className="home-form-submit" variant="light" type="submit">
           Submit
         </Button>
       </Form.Group>

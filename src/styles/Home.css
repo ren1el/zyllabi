@@ -1,12 +1,30 @@
 .content-wrapper {
-  max-height: 100%;
-  background-color: #3A4B6C;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: #3A4B6C;
 }
 
-.content {
-  height: 92%;
+.full-height {
+  min-height: 100%;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.navbar, .footer {
+  background-color: #FFF;
+  min-height: 3rem;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .center-content {
@@ -19,12 +37,12 @@
 }
 
 .topbar-wrapper {
-  height: 4%;
   color: #000;
   background-color: #FFFFFF;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 3em;
 }
 
 .topbar {
@@ -46,25 +64,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.home {
-  display: inline-block;
-  position: relative;
-  top: 30%;
-  left: 25%;
-}
-
-.profile {
-  width: 55%;
-  padding: 2em;
-  display: flex;
-  flex-direction: column;
-}
-
-.departments {
-  width: 55%;
-  padding: 2em;
 }
 
 .department-block {
@@ -100,21 +99,18 @@
   color: #000;
 }
 
-.eg {
-  text-align: right;
-  font-size: 1rem;
-}
-
-.syllabi {
-  width: 55%;
-  padding: 2em;
-  display: flex;
-  flex-direction: column;
+.syllabi, .departments, .profile {
+  flex: 1;
+  margin: 1.5em;
 }
 
 .syllabus {
   height: 80%;
   width: 100%;
+}
+
+.syllabi-container {
+  min-height: 100%;
 }
 
 .syllabi-options {
@@ -126,14 +122,12 @@
 .syllabus-heading {
   text-transform: uppercase;
   font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  margin: .2em;
+  margin: .5em;
 }
 
 .syllabus-embed {
   width: 100%;
-  height: 85%;
+  height: 800px;
 }
 
 .syllabi-embed {
@@ -152,10 +146,120 @@
   height: 95%;
 }
 
-.header {
+.home-header-main {
   font-weight: bold;
-  font-size: 5rem;
+  font-size: 5em;
   color: #FFFFFF;
+}
+
+.home-header-find {
+  font-size: 2em;
+}
+
+.home-form-department {
+  margin-right: .5em;
+}
+
+.home-form-course-number {
+  margin-right: .5em;
+}
+
+@media (max-width: 575.98px) {
+  body {
+    font-size: .9rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: .9em;
+  }
+
+  .home-header-main {
+    order: 1
+  }
+
+  .home-description {
+    text-align: center;
+    order: 2
+  }
+
+  .home-header-find {
+    order: 3;
+  }
+
+  .home-example {
+    order: 4;
+  }
+
+  .home-form {
+    width: 90%;
+    order: 5;
+  }
+
+  .home-form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-form-department, 
+  .home-form-course-number, 
+  .home-form-submit {
+    margin: .5em 0;
+  }
+
+  .home-to-database {
+    order: 5;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .table-custom-style {
+    font-size: .8rem;
+  }
+
+  .profile-table-quarter-header, 
+  .profile-table-quarter-col {
+    display: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .syllabi-header {
+    text-align: center;
+  }
+
+  .syllabi-options {
+    display: flex;
+    justify-content: center;
+  }
+
+  .syllabus-heading {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .syllabus-heading-info {
+    text-align: center;
+  }
+
+  .syllabus-heading-button {
+    margin: 0;
+  }
+
+  .syllabi-message {
+    text-align: center;
+  }
+
+  .syllabus-embed {
+    display: none;
+  }
 }
 
 .custom-select {

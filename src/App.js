@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Topbar from './components/Topbar';
+import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Syllabi from './components/Syllabi';
@@ -40,24 +40,24 @@ const App = () => {
   }, []);
 
   return (
-    <div className='content-wrapper'>
-      <Topbar user={user} setUser={setUser} isUserResolved={isUserResolved} />
+    <section className="content-wrapper full-height">
+      <Navbar user={user} setUser={setUser} isUserResolved={isUserResolved} />
       <Switch>
-        <Route path='/syllabi/:courseDept/:courseNumber'>
+        <Route path="/syllabi/:courseDept/:courseNumber">
           <Syllabi user={user} />
         </Route>
-        <Route path='/profile'>
+        <Route path="/profile">
           <Profile user={user} isUserResolved={isUserResolved} />
         </Route>
-        <Route path='/departments'>
+        <Route path="/departments">
           <Departments />
         </Route>
-        <Route path='/'>
+        <Route path="/">
           <Home />
         </Route>
       </Switch>
       <Footer />
-    </div>
+    </section>
   );
 };
 

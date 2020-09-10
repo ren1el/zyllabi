@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import syllabusService from '../services/syllabiService';
 import zyllabis3bucketService from '../services/zyllabis3bucketService';
@@ -39,7 +40,8 @@ const Syllabi = ({ user }) => {
         instructor: attributes.instructor,
         quarter: attributes.quarter,
         year: attributes.year,
-        url: signedRequest.url
+        url: signedRequest.url,
+        fileType: attributes.file.type
       };
       const response = await syllabusService.addSyllabus(newSyllabus, user);
       await zyllabis3bucketService.putSyllabus(signedRequest.signedRequest, attributes.file);
@@ -55,22 +57,22 @@ const Syllabi = ({ user }) => {
 
   if(!isSyllabiResolved) {
     return (
-      <div className="content center-content">
-        <div className="syllabi">
-          <h1>{courseDept} {courseNumber}</h1>
+      <div className="syllabi">
+        <Container>
+          <h1 className="syllabi-header">{courseDept} {courseNumber}</h1>
           <Loading size="lg" />
-        </div>
+        </Container>
       </div>
     );
   }
 
   return (
-    <div className="content center-content">
-      <div className="syllabi">
+    <div className="syllabi">
+      <Container className="syllabi-container">
         {!(errorMessage === '') && <Notification variant="danger" message={errorMessage} setMessage={setErrorMessage} />}
         {!(successMessage === '') && <Notification variant="success" message={successMessage} setMessage={setSuccessMessage} />}
 
-        <h1>{courseDept} {courseNumber}</h1>
+        <h1 className="syllabi-header">{courseDept} {courseNumber}</h1>
 
         {syllabi.length > 0 && user &&
           <div className="syllabi-options">
@@ -92,8 +94,8 @@ const Syllabi = ({ user }) => {
         }
 
         {syllabus && <Syllabus syllabus={syllabus} user={user} />}
-        {!syllabi.length && !syllabus && <p>No syllabus found :(</p>}
-      </div>
+        <p className="syllabi-message">{!syllabi.length && !syllabus && <p>No syllabus found :(</p>}</p>
+      </Container>
     </div>
   );
 };

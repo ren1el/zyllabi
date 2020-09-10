@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Table } from 'react-bootstrap';
+import { Container, Table, Button } from 'react-bootstrap';
+import { BiLinkExternal } from 'react-icons/bi';
 import usersService from '../services/usersService';
 import syllabiService from '../services/syllabiService';
 import Loading from './Loading';
@@ -44,19 +45,24 @@ const Profile = ({ user, isUserResolved }) => {
     setContributions(contributions.filter((contribution) => contribution.id !== syllabusId));
   };
 
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
+  };
+
   if(!isUserResolved) {
     return (
-      <div className="content center-content">
-        <div className="profile">
+      <div className="profile">
+        <Container>
           <Loading size="lg" />
-        </div>
+        </Container>
       </div>
     );
   }
 
   return (
-    <div className="content center-content scrollable">
-      <div className="profile">
+    <div className="profile">
+      <Container>
         {!user && <p className="text-center">Login to continue!</p>}
 
         {user && <h1>Your Contributions</h1>}
@@ -66,12 +72,12 @@ const Profile = ({ user, isUserResolved }) => {
         }
 
         {user && isContributionsResolved && contributions.length > 0 && 
-          <Table className="table-custom-style text-center" responsive borderless hover>
+          <Table className="table-custom-style text-center" responsive borderless hover size="sm">
             <thead>
               <tr>
                 <th>Course</th>
                 <th>Instructor</th>
-                <th>Quarter/Year</th>
+                <th className="profile-table-quarter-header">Quarter/Year</th>
                 <th>URL</th>
                 <th>Options</th>
               </tr>
@@ -90,8 +96,12 @@ const Profile = ({ user, isUserResolved }) => {
                   <tr key={id}>
                     <td><Link to={`/syllabi/${department}/${courseNumber}`}>{department} {courseNumber}</Link></td>
                     <td>{instructor}</td>
-                    <td>{quarter} {year}</td>
-                    <td><a target="_blank" rel="noopener noreferrer" href={url}>PDF</a></td>
+                    <td className="profile-table-quarter-col">{quarter} {year}</td>
+                    <td>
+                      <Button variant="outline-light m-1" onClick={() => openInNewTab(url)}>
+                        <BiLinkExternal />
+                      </Button>
+                    </td>
                     <td>
                       <EditModal syllabus={syllabus} handler={editSyllabus} />
                       <DeleteModal syllabus={syllabus} handler={deleteSyllabus} />
@@ -103,7 +113,7 @@ const Profile = ({ user, isUserResolved }) => {
         }
 
         {user && isContributionsResolved && contributions.length === 0 && <div>No Contributions</div>}
-      </div>
+      </Container>
     </div>
   );
 };

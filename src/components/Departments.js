@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 import departmentService from '../services/departmentService';
 import Notification from './Notification';
 import Loading from './Loading';
@@ -25,25 +25,28 @@ const Departments = () => {
 
   if(!isDepartmentsResolved) {
     return (
-      <div className="content center-content scrollable">
-        <div className="departments">
+      <div className="departments">
+        <Container>
           <h1>Departments</h1>
           <Loading />
-        </div>
+        </Container>
       </div>
     );
   }
 
   return (
-    <div className="content center-content scrollable">
-      <div className="departments">
+    <div className="departments">
+      <Container>
         <h1>Departments</h1>
         {!(errorMessage === '') && <Notification variant="danger" message={errorMessage} setMessage={setErrorMessage} />}
         
         <Form>
           <Form.Group controlId="department">
-            <Form.Label>Filter</Form.Label>
+            <Form.Label>Filter Departments</Form.Label>
             <Form.Control type="text" onChange={({ target }) => setSelectedDepartment(target.value)} placeholder="e.g. MATH" />
+            <Form.Text>
+              NOTE: Type in a department as you would see it on WebSOC! For example, entering ’ics’ won’t work but ’i&c sci’ will.
+            </Form.Text>
           </Form.Group>
         </Form>
 
@@ -63,7 +66,7 @@ const Departments = () => {
             );
           })
         }
-      </div>
+      </Container>
     </div>
   );
 };

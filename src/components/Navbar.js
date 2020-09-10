@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Button, Dropdown } from 'react-bootstrap';
+import { Container, Button, Dropdown } from 'react-bootstrap';
 import Loading from './Loading';
 
-const Topbar = ({ user, setUser, isUserResolved }) => {
+const Navbar = ({ user, setUser, isUserResolved }) => {
   const history = useHistory();
 
   const onLoginClicked = async (event) => {
@@ -48,10 +48,10 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
   };
 
   return (
-    <div className="topbar-wrapper">
-      <div className="topbar">
-        <h1 className="topbar-header"><Link to="/">Zyllabi</Link></h1>
-        <div className="user">
+    <nav className="navbar" aria-labelledby="primary-navigation">
+      <Container>
+        <Link to="/">Zyllabi</Link>
+        <div className="navbar-menu">
           {!isUserResolved && 
             <div className="loading-center">
               <Loading size="sm" />
@@ -78,9 +78,9 @@ const Topbar = ({ user, setUser, isUserResolved }) => {
             </Dropdown>
           }
         </div>
-      </div>
-    </div>
+      </Container>
+    </nav>
   );
 };
 
-export default Topbar;
+export default Navbar;
