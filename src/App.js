@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import Syllabi from './components/Syllabi';
 import Departments from './components/Departments';
+import About from './components/About';
 import Footer from './components/Footer';
 
 const App = () => {
@@ -51,6 +52,9 @@ const App = () => {
         </Route>
         <Route path="/departments">
           <Departments />
+        </Route>
+        <Route path="/about">
+          <About />
         </Route>
         <Route path="/">
           <Home />
