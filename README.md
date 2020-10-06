@@ -1,7 +1,7 @@
 # Zyllabi
 
 #### A crowd-sourced database of UC Irvine course syllabi.
-Zyllabi hopes to demystify course loads by making course syllabi openly accessible and freely available. It aims to reduce choice paralysis when signing up for classes and act as a reference for the inevitable time a professor tells you to "check the syllabus."
+Zyllabi hopes to demystify course loads by making course syllabi openly accessible and freely available. It hopes to reduce choice paralysis when signing up for classes and act as a reference for the inevitable time a professor tells you to "check the syllabus."
 
 <hr>
 
