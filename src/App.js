@@ -5,10 +5,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import Syllabi from './components/Syllabi';
 import Departments from './components/Departments';
-<<<<<<< HEAD
-=======
 import About from './components/About';
->>>>>>> parent of f61fa4d... Change development routes
 import Footer from './components/Footer';
 
 const App = () => {
@@ -56,12 +53,9 @@ const App = () => {
         <Route path="/departments">
           <Departments />
         </Route>
-<<<<<<< HEAD
-=======
         <Route path="/about">
           <About />
         </Route>
->>>>>>> parent of f61fa4d... Change development routes
         <Route path="/">
           <Home />
         </Route>
