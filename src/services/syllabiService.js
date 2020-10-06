@@ -1,9 +1,5 @@
 import axios from 'axios';
-let baseUrl = '/api/syllabi';
-
-if (process.env.NODE_ENV === 'development') { //eslint-disable-line
-  baseUrl = 'http://localhost:3001/api/syllabi';
-} 
+const baseUrl = `/api/syllabi`; //eslint-disable-line
 
 const getAllSyllabi = async () => {
   const response = await axios.get(baseUrl);
